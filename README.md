@@ -6,12 +6,13 @@ Every script is pinned by a release tag, so a command you ran keeps meaning the 
 | Script | What it does | Run it |
 |---|---|---|
 | `stage/stage_mac_probe.py` | Checks whether an Apple Silicon Mac can be Understudy Stage's interim GPU. Writes a Markdown report with a GO / MARGINAL / NO-GO verdict. | [docs/new-mac.md](docs/new-mac.md) |
+| `stage/stage_mac_sing.py` | Re-sings a song in a singer's voice on that Mac ("Sing as"), keeping the melody and key. Needs the probe run once first. | [docs/stage-sing.md](docs/stage-sing.md) |
 
 Quick start (macOS Terminal):
 
 ```sh
 mkdir -p ~/qed-scripts && cd ~/qed-scripts
-curl -fsSLO https://raw.githubusercontent.com/Nerdifitronix/qed-scripts/v0.1.0/stage/stage_mac_probe.py
+curl -fsSLO https://raw.githubusercontent.com/Nerdifitronix/qed-scripts/v0.1.1/stage/stage_mac_probe.py
 python3 stage_mac_probe.py
 ```
 
@@ -32,6 +33,6 @@ Merge to `main`, then tag `vX.Y.Z` and update the commands in the docs to the ne
 
 ## Licence
 
-GPL-3.0 (see [LICENSE](LICENSE)). `stage/stage_mac_probe.py` embeds Understudy's Stage model code, which is adapted
+GPL-3.0 (see [LICENSE](LICENSE)). `stage/stage_mac_sing.py` runs the same model code that the probe installs. `stage/stage_mac_probe.py` embeds Understudy's Stage model code, which is adapted
 from [Seed-VC](https://github.com/Plachtaa/seed-vc) (GPL-3.0). The copy here comes from the Understudy repository
 (`scripts/stage_mac_probe.py`), where a test keeps the embedded code identical to what Stage ships.

@@ -28,11 +28,11 @@ wait for it to finish (a few minutes), then run the command again. Any version f
 
 ```sh
 mkdir -p ~/qed-scripts && cd ~/qed-scripts
-curl -fsSLO https://raw.githubusercontent.com/Nerdifitronix/qed-scripts/v0.1.0/stage/stage_mac_probe.py
+curl -fsSLO https://raw.githubusercontent.com/Nerdifitronix/qed-scripts/v0.1.1/stage/stage_mac_probe.py
 ```
 
-`v0.1.0` pins the exact reviewed version. Optional: compare the file with the checksum on the
-[release page](https://github.com/Nerdifitronix/qed-scripts/releases/tag/v0.1.0):
+`v0.1.1` pins the exact reviewed version. Optional: compare the file with the checksum on the
+[release page](https://github.com/Nerdifitronix/qed-scripts/releases/tag/v0.1.1):
 
 ```sh
 shasum -a 256 stage_mac_probe.py
@@ -58,7 +58,12 @@ The report is in the same folder: `~/qed-scripts/stage-mac-probe-YYYY-MM-DD.md`.
 It contains the Mac's model, chip, memory, macOS version, timings and any errors. It does not contain your name,
 the Mac's name or serial number, network addresses or files from your Mac.
 
-The converted sample audio is in `~/qed-stage-probe/out/` if you want to listen to it.
+The probe's test clips are in `~/qed-stage-probe/out/`. They copy a short speaking sample at its pitch, so they
+are a speed check, not a quality check. Use [stage-sing.md](stage-sing.md) to judge quality.
+
+## Next: try a real singer
+
+Once the probe has run, [stage-sing.md](stage-sing.md) re-sings a song in a real singer's voice on this Mac.
 
 ## Running it again
 
