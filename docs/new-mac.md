@@ -58,7 +58,12 @@ The report is in the same folder: `~/qed-scripts/stage-mac-probe-YYYY-MM-DD.md`.
 It contains the Mac's model, chip, memory, macOS version, timings and any errors. It does not contain your name,
 the Mac's name or serial number, network addresses or files from your Mac.
 
-The converted sample audio is in `~/qed-stage-probe/out/` if you want to listen to it.
+The probe's test clips are in `~/qed-stage-probe/out/`. They copy a short speaking sample at its pitch, so they
+are a speed check, not a quality check. Use [stage-sing.md](stage-sing.md) to judge quality.
+
+## Next: try a real singer
+
+Once the probe has run, [stage-sing.md](stage-sing.md) re-sings a song in a real singer's voice on this Mac.
 
 ## Running it again
 
