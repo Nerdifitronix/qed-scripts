@@ -37,7 +37,7 @@ import urllib.request
 import zlib
 from pathlib import Path
 
-PROBE_VERSION = "1.2"
+PROBE_VERSION = "1.3"
 SEEDVC_COMMIT = "51383efd921027683c89e5348211d93ff12ac2a8"
 PYTHON = "3.11"
 REQUIREMENTS = [
@@ -91,6 +91,14 @@ def fmt(v, unit="", nd=1):
     return f"{v}{unit}"
 
 
+def melody_bar(runs: list):
+    """Melody correlation judged at Stage's default quality (30 steps); 10-step runs are warm-up/draft timings only."""
+    scored = [c for c in runs if c.get("melody_corr") is not None and c.get("seconds") is not None]
+    at30 = [c for c in scored if c.get("steps") == 30]
+    pool = at30 or scored
+    return min(c["melody_corr"] for c in pool) if pool else None
+
+
 def verdict(state: dict):
     m, r = state.get("machine", {}), state.get("results", {})
     reasons = []
@@ -136,7 +144,7 @@ def render(state: dict) -> str:
     L.append("")
     for w in why:
         L.append(f"- {w}")
-    L.append(f"- Bar: Apple GPU used, at least {MIN_RAM_GB} GB memory, melody correlation at least {MIN_MEL_CORR}, "
+    L.append(f"- Bar: Apple GPU used, at least {MIN_RAM_GB} GB memory, melody correlation at least {MIN_MEL_CORR} at 30 steps, "
              f"3.5-min vocal at 30 steps in {GO_SONG_MIN:.0f} min or less (GO) or {MARGINAL_SONG_MIN:.0f} min or less (MARGINAL).")
     L.append("")
     L.append("## Machine")
@@ -668,8 +676,7 @@ def bench(args) -> int:
         # diffusion dominates; scaling from 10 to 30 steps by step count is a conservative (high) estimate
         conv_summary = {"song_estimate_minutes": round(rtf30 * SONG_SECONDS / 60, 1), "basis_clip_s": basis["clip_s"],
                         "basis_steps": basis["steps"],
-                        "melody_corr": min(c["melody_corr"] for c in done if c.get("melody_corr") is not None)
-                        if any(c.get("melody_corr") is not None for c in done) else None}
+                        "melody_corr": melody_bar(done)}
         R["convert"] = conv_summary
     flush()
 
