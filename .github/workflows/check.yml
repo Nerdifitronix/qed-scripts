@@ -9,13 +9,13 @@ jobs:
   check:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
+        # 3.9 is the oldest python3 on supported Macs; uv supplies it where setup-python no longer does
         python: ["3.9", "3.13"]
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python }}
-      - run: python tools/check.py
+      - uses: astral-sh/setup-uv@v6
+      - run: uv run --no-project --python ${{ matrix.python }} python tools/check.py
       - name: scripts start and show help
-        run: python stage/stage_mac_probe.py --help
+        run: uv run --no-project --python ${{ matrix.python }} python stage/stage_mac_probe.py --help
