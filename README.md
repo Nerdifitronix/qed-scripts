@@ -11,7 +11,7 @@ Quick start (macOS Terminal):
 
 ```sh
 mkdir -p ~/qed-scripts && cd ~/qed-scripts
-curl -fsSLO https://raw.githubusercontent.com/Nerdifitronix/qed-scripts/v0.1.0/stage/stage_mac_probe.py
+curl -fsSLO https://raw.githubusercontent.com/Nerdifitronix/qed-scripts/v0.1.1/stage/stage_mac_probe.py
 python3 stage_mac_probe.py
 ```
 
