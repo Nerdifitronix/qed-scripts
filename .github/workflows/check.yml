@@ -19,3 +19,6 @@ jobs:
       - run: uv run --no-project --python ${{ matrix.python }} python tools/check.py
       - name: scripts start and show help
         run: uv run --no-project --python ${{ matrix.python }} python stage/stage_mac_probe.py --help
+        # bash 5 here; the script is also tested on bash 3.2 (macOS /bin/bash) in QED-Device-Health
+      - name: mac health script shows help and version
+        run: bash mac/qed-mac-health.sh --version && bash mac/qed-mac-health.sh --help

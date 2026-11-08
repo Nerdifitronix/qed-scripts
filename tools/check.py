@@ -1,6 +1,7 @@
 """Repository checks (run by CI and before every PR):  python3 tools/check.py
 
-1. Every script parses on Python 3.9 (the oldest python3 on supported Macs) and the running Python.
+1. Every script parses: Python on 3.9 (the oldest python3 on supported Macs) and the running Python;
+   shell scripts with `bash -n` (or `sh -n` for #!/bin/sh).
 2. Nothing that must stay private: credentials, private IP addresses, internal QED hostnames, email addresses.
    Embedded zlib/base64 payloads are unpacked and scanned too.
 3. Embedded payloads match their recorded sha256.
@@ -11,6 +12,8 @@ import ast
 import base64
 import hashlib
 import re
+import shutil
+import subprocess
 import sys
 import zlib
 from pathlib import Path
@@ -46,6 +49,16 @@ def main() -> int:
             errors.append(f"{rel}: binary files are not allowed")
             continue
         blobs = [(str(rel), text)]
+        if p.suffix == ".sh":
+            shell = "sh" if text.startswith("#!/bin/sh") else "bash"
+            if shutil.which(shell):
+                r = subprocess.run([shell, "-n", str(p)], capture_output=True, text=True)
+                if r.returncode:
+                    errors.append(f"{rel}: {shell} -n failed: {r.stderr.strip()[:200]}")
+            else:
+                errors.append(f"{rel}: {shell} not found to syntax-check it")
+            if not text.startswith("#!"):
+                errors.append(f"{rel}: needs a #! line")
         if p.suffix == ".py":
             for v in ((3, 9), sys.version_info[:2]):
                 try:
