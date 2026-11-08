@@ -5,6 +5,7 @@ Every script is pinned by a release tag, so a command you ran keeps meaning the 
 
 | Script | What it does | Run it |
 |---|---|---|
+| `mac/qed-mac-health.sh` | Read-only health check for any Mac: score, plain-language fixes, hardware and ports. Writes a local HTML/TXT/JSON report. | [docs/mac-health.md](docs/mac-health.md) |
 | `stage/stage_mac_probe.py` | Checks whether an Apple Silicon Mac can be Understudy Stage's interim GPU. Writes a Markdown report with a GO / MARGINAL / NO-GO verdict. | [docs/new-mac.md](docs/new-mac.md) |
 
 Quick start (macOS Terminal):
@@ -21,9 +22,9 @@ This repository is **public**: anyone on the internet can read it. See [SECURITY
 
 - No secrets, tokens, passwords or keys. Scripts ask for them at run time or read them from the user's own keychain.
 - No internal hostnames, IP addresses, client data, people's names or email addresses.
-- Scripts are stdlib-only Python 3.9+ or POSIX `sh`, install only into a folder under the user's home that they can
+- Scripts are stdlib-only Python 3.9+, POSIX `sh`, or bash 3.2 (the `/bin/bash` every Mac ships), install only into a folder under the user's home that they can
   delete, and never send results anywhere. They write a local file that the person chooses to share.
-- Changes go through a pull request reviewed by a code owner. `python3 tools/check.py` runs in CI and blocks
+- Changes go through a pull request reviewed by a code owner. `python3 tools/check.py` runs in CI (it also syntax-checks shell scripts) and blocks
   anything that breaks the rules above that it can detect.
 
 ## Releasing
